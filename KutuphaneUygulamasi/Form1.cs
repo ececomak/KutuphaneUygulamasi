@@ -7,17 +7,18 @@ namespace KutuphaneUygulamasi
 {
     public partial class Form1 : Form
     {
+        public static string GirisYapanKullaniciAdi;
+
         private Label lblKullaniciAdi, lblSifre, lblMesaj;
         private TextBox txtKullaniciAdi, txtSifre;
         private Button btnGiris;
-        private PictureBox picture;
 
         public Form1()
         {
             this.Text = "Kütüphane Giriş";
             this.Size = new Size(450, 400);
             this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.FromArgb(250, 245, 255); // pastel mor ton
+            this.BackColor = Color.FromArgb(250, 245, 255);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.Font = new Font("Segoe UI", 11);
 
@@ -75,7 +76,6 @@ namespace KutuphaneUygulamasi
                 AutoSize = true
             };
 
-            this.Controls.Add(picture);
             this.Controls.Add(lblKullaniciAdi);
             this.Controls.Add(txtKullaniciAdi);
             this.Controls.Add(lblSifre);
@@ -104,26 +104,20 @@ namespace KutuphaneUygulamasi
 
                     if (yetki != null)
                     {
+                        GirisYapanKullaniciAdi = kullaniciAdi;
                         string rol = yetki.ToString().ToLower();
 
                         if (rol == "admin")
                         {
-                            FormAdmin adminForm = new FormAdmin();
-                            adminForm.Show();
-                            this.Hide();
+                            new FormAdmin().Show();
                         }
                         else
                         {
-                            FormUye uyeForm = new FormUye();
-                            uyeForm.Show();
-                            this.Hide();
+                            new FormUye().Show();
                         }
-                    }
 
-                    if (yetki != null)
-                    {
-                        string rol = yetki.ToString();
                         MessageBox.Show($"{rol.ToUpper()} olarak giriş başarılı!", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Hide();
                     }
                     else
                     {
